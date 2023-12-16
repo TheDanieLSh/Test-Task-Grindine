@@ -14,12 +14,6 @@ html {
   font-size: 20px;
 }
 
-.container {
-  width: 100%;
-  height: -moz-max-content;
-  height: max-content;
-}
-
 input {
   cursor: pointer;
 }/*# sourceMappingURL=index.css.map */

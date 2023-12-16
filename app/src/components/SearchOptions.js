@@ -1,4 +1,13 @@
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux'
+
 export default function SearchOptions() {
+    const flightsJSON = useSelector(state => state.fetchDataReducer.flights);
+    console.log(flightsJSON);
+    function submitParameters() {
+        
+    }
+
     return (
         <div className="search-options">
             <div className="search-options__decorative-grey-block_top"></div>
@@ -51,7 +60,7 @@ export default function SearchOptions() {
                         <label> - Аэрофлот от 31733 р.</label>
                     </div>
                 </fieldset>
-                <button>Поиск</button>
+                <button onClick={submitParameters}>Поиск</button>
             </form>
             <div className="search-options__decorative-grey-block_bottom"></div>
         </div>
