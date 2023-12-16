@@ -7,8 +7,17 @@
     font-family: inherit;
     font-weight: normal;
 }
+html {
+    font-size: 20px;
+}
 
 .container {
     width: 100%;
     height: max-content;
 }
+input {
+    cursor: pointer;
+}
+
+@import url(./css/SearchOptions.css);
+@import url(./css/Flights.css);

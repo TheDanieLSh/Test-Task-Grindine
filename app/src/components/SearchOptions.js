@@ -7,42 +7,52 @@ export default function SearchOptions() {
                     <legend>Сортировать</legend>
                     <div>
                         <input type="radio" name="sort" value="- по возрастанию цены" />
-                        <label>- по возрастанию цены</label>
+                        <label> - по возрастанию цены</label>
                     </div>
                     <div>
                         <input type="radio" name="sort" value="- по убыванию цены" />
-                        <label>- по убыванию цены</label>
+                        <label> - по убыванию цены</label>
                     </div>
                     <div>
                         <input type="radio" name="sort" value="- по времени в пути" />
-                        <label>- по времени в пути</label>
+                        <label> - по времени в пути</label>
                     </div>
                 </fieldset>
                 <fieldset className="filterField">
                     <legend>Фильтровать</legend>
                     <div>
                         <input type="checkbox" name="filter" value="- 1 пересадка" />
-                        <label>- 1 пересадка</label>
+                        <label> - 1 пересадка</label>
                     </div>
                     <div>
                         <input type="checkbox" name="filter" value="- без пересадок" />
-                        <label>- без пересадок</label>
+                        <label> - без пересадок</label>
                     </div>
                 </fieldset>
                 <fieldset className="priceField">
                     <legend>Цена</legend>
                     <div>
+                        <label>От</label>
                         <input type="number" name="price" value="0"/>
                     </div>
                     <div>
+                        <label>До</label>
                         <input type="number" name="price" value="10000" />
                     </div>
                 </fieldset>
+                <fieldset className="companiesField">
+                    <legend>Авиакомпании</legend>
+                    <div>
+                        <input type="checkbox" name="filter" value="- LOT Polish Airlines от 21049 р." />
+                        <label> - LOT Polish Airlines от 21049 р.</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="filter" value="- Аэрофлот от 31733 р." />
+                        <label> - Аэрофлот от 31733 р.</label>
+                    </div>
+                </fieldset>
+                <button>Поиск</button>
             </form>
-            {/* <div className="search-options__sort"></div>
-            <div className="search-options__filter"></div>
-            <div className="search-options__price-range"></div>
-            <div className="search-options__company"></div> */}
             <div className="search-options__decorative-grey-block_bottom"></div>
         </div>
     )
