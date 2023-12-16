@@ -24,7 +24,7 @@ function App() {
   return (
     <div>
       <SearchOptions />
-      <Flights sorting='' filters='' priceFrom='' priceTo='' companies='' />
+      <Flights />
     </div>
   )
 }

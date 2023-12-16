@@ -5,11 +5,11 @@ export default function Flights(props) {
             {resultArray.map((flight, i) => (
                 <div className="flight">
                     <div className="flight__header">
-                        <img src={flight.companyLogo} />
-                        <div className="flight__price">
+                        <span>{flight.company} </span>
+                        <span className="flight__price">
                             <div className="price__number"></div>
                             <div className="price__caption">Стоимость для одного взрослого пассажира</div>
-                        </div>
+                        </span>
                     </div>
                     <div className="flight__segments">
                         {flight.segments.map((segment, i) => (
