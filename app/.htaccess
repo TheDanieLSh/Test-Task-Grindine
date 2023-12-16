@@ -1,0 +1,5 @@
+RewriteEngine on
+Rewritecond %{REQUEST_FILENAME} !static
+Rewritecond %{REQUEST_FILENAME} !fonts
+Rewritecond %{REQUEST_FILENAME} !flights.json
+RewriteRule . index.html [L]

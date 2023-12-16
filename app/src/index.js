@@ -16,10 +16,10 @@ root.render(
 );
 
 function App() {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchFlights())
-  }, [dispatch])
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   dispatch(fetchFlights())
+  // }, [dispatch])
 
   return (
     <div>

@@ -1,11 +1,14 @@
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux';
 
 export default function SearchOptions() {
-    const flightsJSON = useSelector(state => state.fetchDataReducer.flights);
-    console.log(flightsJSON);
-    function submitParameters() {
-        
+    // const flightsJSON = useSelector(state => state.fetchDataReducer.flights);
+    // console.log(flightsJSON);
+    async function submitParameters(e) {
+        e.preventDefault();
+        const response = await fetch('../flights.json');
+        const flightsJSON = await response.json();
+        console.log(flightsJSON);
     }
 
     return (
