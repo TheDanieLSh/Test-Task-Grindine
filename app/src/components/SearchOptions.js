@@ -15,11 +15,17 @@ export default function SearchOptions() {
             sorting: document.querySelector('input[name="sort"]:checked')?.value,
             noMoreThanOneTransfer: document.querySelector('input[name="filterOne"]:checked')?.value,
             withoutTransfers: document.querySelector('input[name="filterNo"]:checked')?.value,
-            priceFrom: document.querySelector('input[name="priceFrom"]:checked')?.value,
-            priceTo: document.querySelector('input[name="priceTo"]:checked')?.value,
+            priceFrom: document.querySelector('input[name="priceFrom"]').value,
+            priceTo: document.querySelector('input[name="priceTo"]').value,
             polishAirlines: document.querySelector('input[name="PolishAirlines"]:checked')?.value,
             aeroflot: document.querySelector('input[name="aeroflot"]:checked')?.value,
         }
+        for (let key in parameters) {
+            if (parameters[key] == undefined) {
+                parameters[key] = false
+            }
+        }
+        console.log(parameters);
     }
 
     return (
