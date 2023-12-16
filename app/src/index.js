@@ -9,7 +9,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <div className='container'>
     <SearchOptions />
-    <Flights />
+    <Flights sorting='' filters='' priceFrom='' priceTo='' companies='' />
   </div>
 );
 
