@@ -23,13 +23,13 @@ export default function Flights(props) {
                                 </div>
                                 <div className="segment__times">
                                     <span className="time-and-date">
-                                        <span className="time">{segment.departureTime}</span>
-                                        <span className="date">{segment.departureDate}</span>
+                                        <span className="time">{segment.departureDate.getHours()}</span>
+                                        <span className="date">{segment.departureDate.getDay()}</span>
                                     </span>
                                     <span className="total-time">{segment.totalTime}</span>
                                     <span className="time-and-date">
-                                        <span className="time">{segment.arrivalTime}</span>
-                                        <span className="date">{segment.arrivalDate}</span>
+                                        <span className="time">{segment.arrivalDate.getHours()}</span>
+                                        <span className="date">{segment.arrivalDate.getDay()}</span>
                                     </span>
                                 </div>
                                 <div className="segment_amount-of-transfers">
