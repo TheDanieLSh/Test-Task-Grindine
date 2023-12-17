@@ -55,7 +55,6 @@ export default function SearchOptions() {
                 appropriate: true,
             })
         })
-        console.log(flightsArray);
         const sortedArray = [];
         flightsArray.forEach(flight => {
             flight.segments.forEach(segment => {
@@ -69,33 +68,34 @@ export default function SearchOptions() {
                 } else if (segment.amountOfTransfers > 0) {
                     flight.appropriate = false
                 }
-                if ((flight.cost < parameters.priceFrom) || (flight.cost > parameters.priceTo)) {
-                    flight.appropriate = false
-                }
-
-                if (parameters.polishAirlines == true) {
-                    if (parameters.aeroflot == false) {
-                        if (flight.hostCompany != 'LOT Polish Airlines') {
-                            flight.appropriate = false
-                        }
-                    } else {
-                        if ((flight.hostCompany != 'LOT Polish Airlines') || (flight.hostCompany != 'Аэрофлот - российские авиалинии')) {
-                            flight.appropriate = false
-                        }
-                    }
-                }
-                if (parameters.aeroflot == true) {
-                    if (parameters.polishAirlines == false) {
-                        if (flight.hostCompany != 'Аэрофлот - российские авиалинии') {
-                            flight.appropriate = false
-                        }
-                    } else {
-                        if ((flight.hostCompany != 'Аэрофлот - российские авиалинии') || (flight.hostCompany != 'LOT Polish Airlines')) {
-                            flight.appropriate = false
-                        }
-                    }
-                }
             })
+            if ((flight.cost < parameters.priceFrom) || (flight.cost > parameters.priceTo)) {
+                flight.appropriate = false
+            }
+            if (parameters.polishAirlines == true) {
+                if (parameters.aeroflot == false) {
+                    if (flight.hostCompany != 'LOT Polish Airlines') {
+                        flight.appropriate = false
+                    }
+                } else {
+                    if ((flight.hostCompany != 'LOT Polish Airlines') || (flight.hostCompany != 'Аэрофлот - российские авиалинии')) {
+                        flight.appropriate = false
+                    }
+                }
+            }
+            if (parameters.aeroflot == true) {
+                if (parameters.polishAirlines == false) {
+                    if (flight.hostCompany != 'Аэрофлот - российские авиалинии') {
+                        flight.appropriate = false
+                    }
+                } else {
+                    if ((flight.hostCompany != 'Аэрофлот - российские авиалинии') || (flight.hostCompany != 'LOT Polish Airlines')) {
+                        flight.appropriate = false
+                    }
+                }
+            }
+        })
+        flightsArray.forEach(flight => {
             if (flight.appropriate == true) {
                 sortedArray.push(flight)
             }
