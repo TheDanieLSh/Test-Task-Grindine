@@ -1,3 +1,5 @@
+import { current } from "@reduxjs/toolkit";
+
 export default function SearchOptions() {
     async function submitParameters(e) {
         e.preventDefault();
@@ -28,8 +30,11 @@ export default function SearchOptions() {
                 parameters[key] = false
             }
         }
+        // const reducedArray = [];
+        // flightsJSON.result.flights.reduce(
+        //     (previous, current) => (previous.push(current.flight)), reducedArray)
+        // console.log(reducedArray);
         const flightsArray = [];
-        console.log(test);
         flightsJSON.result.flights.forEach(f => {
             flightsArray.push({
                 hostCompany: f.flight.carrier.caption,
@@ -45,7 +50,7 @@ export default function SearchOptions() {
                             arrivalAirport: leg.segments.at(-1).arrivalAirport.caption,
                             arrivalCity: leg.segments.at(-1).arrivalCity,
                             arrivalDate: new Date(leg.segments.at(-1).arrivalDate),
-                            amountOfTransfers: leg.segments.length,
+                            amountOfTransfers: leg.segments.length - 1,
                             airlineCompany: leg.segments[0].airline.caption,
                         }
                     ))
@@ -63,9 +68,9 @@ export default function SearchOptions() {
                 if (parameters.withoutTransfers == true) {
                     if ((parameters.noMoreThanOneTransfer == true) && (segment.amountOfTransfers > 1)) {
                         flight.appropriate = false
+                    } else if (segment.amountOfTransfers > 0) {
+                        flight.appropriate = false
                     }
-                } else if (segment.amountOfTransfers > 0) {
-                    flight.appropriate = false
                 }
             })
             if ((flight.cost < parameters.priceFrom) || (flight.cost > parameters.priceTo)) {
@@ -128,8 +133,17 @@ export default function SearchOptions() {
             break
             case 'timeCost':
                 sortedArray.sort((a, b) => {
-
+                    if ((a.segments.at(-1).arrivalDate - a.segments[0].departureDate) > (b.segments.at(-1).arrivalDate - b.segments[0].departureDate)) {
+                        return 1
+                    }
+                    if ((a.segments.at(-1).arrivalDate - a.segments[0].departureDate) < (b.segments.at(-1).arrivalDate - b.segments[0].departureDate)) {
+                        return -1
+                    }
+                    if ((a.segments.at(-1).arrivalDate - a.segments[0].departureDate) == (b.segments.at(-1).arrivalDate - b.segments[0].departureDate)) {
+                        return 0
+                    }
                 })
+                break
         }
         console.log(sortedArray);
     }
