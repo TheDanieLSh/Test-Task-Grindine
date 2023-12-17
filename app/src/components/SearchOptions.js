@@ -13,16 +13,16 @@ export default function SearchOptions() {
             priceTo: document.querySelector('input[name="priceTo"]').value,
             polishAirlines: document.querySelector('input[name="PolishAirlines"]:checked')?.value,
             aeroflot: document.querySelector('input[name="Aeroflot"]:checked')?.value,
-            // get suitableCompanies() {
-            //     let companiesArray = [];
-            //     if (parameters.polishAirlines == true) {
-            //         companiesArray.push('LOT Polish Airlines')
-            //     }
-            //     if (parameters.aeroflot == true) {
-            //         companiesArray.push('Аэрофлот - российские авиалинии')
-            //     }
-            //     return companiesArray
-            // }
+            get suitableCompanies() {
+                let companiesArray = [];
+                if (parameters.polishAirlines == true) {
+                    companiesArray.push('LOT Polish Airlines')
+                }
+                if (parameters.aeroflot == true) {
+                    companiesArray.push('Аэрофлот - российские авиалинии')
+                }
+                return companiesArray
+            }
         }
         console.log(parameters);
         for (let key in parameters) {
@@ -66,8 +66,10 @@ export default function SearchOptions() {
                     flight.appropriate = false
                 }
                 if (parameters.withoutTransfers == true) {
-                    if ((parameters.noMoreThanOneTransfer == true) && (segment.amountOfTransfers > 1)) {
-                        flight.appropriate = false
+                    if (parameters.noMoreThanOneTransfer == true) {
+                        if (segment.amountOfTransfers > 1) {
+                            flight.appropriate = false
+                        }
                     } else if (segment.amountOfTransfers > 0) {
                         flight.appropriate = false
                     }
