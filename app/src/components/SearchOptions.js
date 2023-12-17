@@ -1,6 +1,3 @@
-import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
-
 export default function SearchOptions() {
     async function submitParameters(e) {
         e.preventDefault();
@@ -32,6 +29,7 @@ export default function SearchOptions() {
             }
         }
         const flightsArray = [];
+        console.log(test);
         flightsJSON.result.flights.forEach(f => {
             flightsArray.push({
                 hostCompany: f.flight.carrier.caption,
@@ -41,11 +39,11 @@ export default function SearchOptions() {
                         {
                             departureUID: leg.segments[0].departureAirport.uid,
                             departureAirport: leg.segments[0].departureAirport.caption,
-                            // departureCity: leg.segments[0].departureCity.caption,
+                            departureCity: leg.segments[0].departureCity,
                             departureDate: new Date(leg.segments[0].departureDate),
                             arrivalUID: leg.segments.at(-1).arrivalAirport.uid,
                             arrivalAirport: leg.segments.at(-1).arrivalAirport.caption,
-                            // arrivalCity: leg.segments.at(-1).arrivalCity.caption,
+                            arrivalCity: leg.segments.at(-1).arrivalCity,
                             arrivalDate: new Date(leg.segments.at(-1).arrivalDate),
                             amountOfTransfers: leg.segments.length,
                             airlineCompany: leg.segments[0].airline.caption,
@@ -55,6 +53,7 @@ export default function SearchOptions() {
                 appropriate: true,
             })
         })
+        console.log(flightsArray);
         const sortedArray = [];
         flightsArray.forEach(flight => {
             flight.segments.forEach(segment => {
@@ -100,6 +99,38 @@ export default function SearchOptions() {
                 sortedArray.push(flight)
             }
         })
+        switch (parameters.sorting) {
+            case 'rise':
+                sortedArray.sort((a, b) => {
+                    if (a.cost > b.cost) {
+                        return 1
+                    }
+                    if (a.cost < b.cost) {
+                        return -1
+                    }
+                    if (a.cost == b.cost) {
+                        return 0
+                    }
+                })
+            break
+            case 'decreasing':
+                sortedArray.sort((a, b) => {
+                    if (a.cost < b.cost) {
+                        return 1
+                    }
+                    if (a.cost > b.cost) {
+                        return -1
+                    }
+                    if (a.cost == b.cost) {
+                        return 0
+                    }
+                })
+            break
+            case 'timeCost':
+                sortedArray.sort((a, b) => {
+
+                })
+        }
         console.log(sortedArray);
     }
 
@@ -138,11 +169,11 @@ return (
                 <legend>Цена</legend>
                 <div>
                     <label>От</label>
-                    <input type="number" name="priceFrom" defaultValue="0" />
+                    <input type="number" name="priceFrom" defaultValue="104598" />
                 </div>
                 <div>
                     <label>До</label>
-                    <input type="number" name="priceTo" defaultValue="10000" />
+                    <input type="number" name="priceTo" defaultValue="200000" />
                 </div>
             </fieldset>
             <fieldset className="companiesField">
