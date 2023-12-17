@@ -43,11 +43,25 @@ export default function SearchOptions() {
                 parameters[key] = false
             }
         }
-        const flights = [];
+        const flightsArray = [];
         flightsJSON.result.flights.forEach(f => {
-            flights.push({
+            flightsArray.push({
                 hostCompany: f.flight.carrier.caption,
-
+                cost: f.flight.price.total.amount,
+                segments: [
+                    f.flight.legs.map(leg => (
+                        {
+                            departureUID: leg.segments[0].departureAirport.uid,
+                            departureAirport: leg.segments[0].departureAirport.caption,
+                            departureCity: leg.segments[0].departureCity.caption,
+                            departureDate: new Date(leg.segments[0].departureDate),
+                            arrivalUID: leg.segments.at(-1).arrivalAirport.uid,
+                            arrivalAirport: leg.segments.at(-1).arrivalAirport.caption,
+                            arrivalCity: leg.segments.at(-1).arrivalCity.caption,
+                            arrivalDate: new Date(leg.segments.at(-1).arrivalDate),
+                        }
+                    ))
+                ]
             })
         })
     }
@@ -110,4 +124,3 @@ return (
         <div className="search-options__decorative-grey-block_bottom"></div>
     </div>
 )
-}
