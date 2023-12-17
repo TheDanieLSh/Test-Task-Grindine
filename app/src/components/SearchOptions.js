@@ -6,29 +6,6 @@ export default function SearchOptions() {
         e.preventDefault();
         const response = await fetch('/flights.json');
         const flightsJSON = await response.json();
-        const flightParams = {
-            cost: Number,
-            get totalAmountOfTransfers() {
-                let totalTransfers = 0;
-                this.segments.forEach(segment => {
-                    totalTransfers += segment.amountOfTransfers;
-                });
-                return totalTransfers;
-            },
-            hostCompany: String,
-            segments: [
-                {
-                    departureName: String,
-                    departureUID: String,
-                    arrivalName: String,
-                    arrivalUID: String,
-                    departureDate: new Date(),
-                    arrivalDate: new Date(),
-                    amountOfTransfers: Number,
-                    airlineCompany: String,
-                }
-            ]
-        }
         const parameters = {
             sorting: document.querySelector('input[name="sort"]:checked')?.value,
             noMoreThanOneTransfer: document.querySelector('input[name="filterOne"]:checked')?.value,
@@ -36,8 +13,19 @@ export default function SearchOptions() {
             priceFrom: document.querySelector('input[name="priceFrom"]').value,
             priceTo: document.querySelector('input[name="priceTo"]').value,
             polishAirlines: document.querySelector('input[name="PolishAirlines"]:checked')?.value,
-            aeroflot: document.querySelector('input[name="aeroflot"]:checked')?.value,
+            aeroflot: document.querySelector('input[name="Aeroflot"]:checked')?.value,
+            // get suitableCompanies() {
+            //     let companiesArray = [];
+            //     if (parameters.polishAirlines == true) {
+            //         companiesArray.push('LOT Polish Airlines')
+            //     }
+            //     if (parameters.aeroflot == true) {
+            //         companiesArray.push('Аэрофлот - российские авиалинии')
+            //     }
+            //     return companiesArray
+            // }
         }
+        console.log(parameters);
         for (let key in parameters) {
             if (parameters[key] == undefined) {
                 parameters[key] = false
@@ -53,27 +41,66 @@ export default function SearchOptions() {
                         {
                             departureUID: leg.segments[0].departureAirport.uid,
                             departureAirport: leg.segments[0].departureAirport.caption,
-                            departureCity: leg.segments[0].departureCity.caption,
+                            // departureCity: leg.segments[0].departureCity.caption,
                             departureDate: new Date(leg.segments[0].departureDate),
                             arrivalUID: leg.segments.at(-1).arrivalAirport.uid,
                             arrivalAirport: leg.segments.at(-1).arrivalAirport.caption,
-                            arrivalCity: leg.segments.at(-1).arrivalCity.caption,
+                            // arrivalCity: leg.segments.at(-1).arrivalCity.caption,
                             arrivalDate: new Date(leg.segments.at(-1).arrivalDate),
-                            amountOfTransfers: (leg.segments.length + 1),
+                            amountOfTransfers: leg.segments.length,
                             airlineCompany: leg.segments[0].airline.caption,
                         }
                     ))
                 ],
-                get totalAmountOfTransfers() {
-                    let totalTransfers = 0;
-                    this.segments.forEach(segment => {
-                        totalTransfers += segment.amountOfTransfers;
-                    });
-                    return totalTransfers;
-                }
+                appropriate: true,
             })
         })
         console.log(flightsArray);
+        const sortedArray = [];
+        flightsArray.forEach(flight => {
+            flight.segments.forEach(segment => {
+                if ((parameters.noMoreThanOneTransfer == true) && (segment.amountOfTransfers > 1)) {
+                    flight.appropriate = false
+                }
+                if (parameters.withoutTransfers == true) {
+                    if ((parameters.noMoreThanOneTransfer == true) && (segment.amountOfTransfers > 1)) {
+                        flight.appropriate = false
+                    }
+                } else if (segment.amountOfTransfers > 0) {
+                    flight.appropriate = false
+                }
+                if ((flight.cost < parameters.priceFrom) || (flight.cost > parameters.priceTo)) {
+                    flight.appropriate = false
+                }
+
+                if (parameters.polishAirlines == true) {
+                    if (parameters.aeroflot == false) {
+                        if (flight.hostCompany != 'LOT Polish Airlines') {
+                            flight.appropriate = false
+                        }
+                    } else {
+                        if ((flight.hostCompany != 'LOT Polish Airlines') || (flight.hostCompany != 'Аэрофлот - российские авиалинии')) {
+                            flight.appropriate = false
+                        }
+                    }
+                }
+                if (parameters.aeroflot == true) {
+                    if (parameters.polishAirlines == false) {
+                        if (flight.hostCompany != 'Аэрофлот - российские авиалинии') {
+                            flight.appropriate = false
+                        }
+                    } else {
+                        if ((flight.hostCompany != 'Аэрофлот - российские авиалинии') || (flight.hostCompany != 'LOT Polish Airlines')) {
+                            flight.appropriate = false
+                        }
+                    }
+                }
+            })
+            if (flight.appropriate == true) {
+                sortedArray.push(flight)
+            }
+        })
+        console.log(sortedArray);
     }
 
 
