@@ -59,13 +59,23 @@ export default function SearchOptions() {
                             arrivalAirport: leg.segments.at(-1).arrivalAirport.caption,
                             arrivalCity: leg.segments.at(-1).arrivalCity.caption,
                             arrivalDate: new Date(leg.segments.at(-1).arrivalDate),
+                            amountOfTransfers: (leg.segments.length + 1),
+                            airlineCompany: leg.segments[0].airline.caption,
                         }
                     ))
-                ]
+                ],
+                get totalAmountOfTransfers() {
+                    let totalTransfers = 0;
+                    this.segments.forEach(segment => {
+                        totalTransfers += segment.amountOfTransfers;
+                    });
+                    return totalTransfers;
+                }
             })
         })
+        console.log(flightsArray);
     }
-}
+
 
 return (
     <div className="search-options">
@@ -123,4 +133,4 @@ return (
         </form>
         <div className="search-options__decorative-grey-block_bottom"></div>
     </div>
-)
+)}
