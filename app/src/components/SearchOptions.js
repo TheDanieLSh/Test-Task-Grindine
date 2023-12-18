@@ -15,13 +15,33 @@ export default function SearchOptions() {
             aeroflot: document.querySelector('input[name="Aeroflot"]:checked')?.value,
             get suitableCompanies() {
                 let companiesArray = [];
-                if (parameters.polishAirlines != false) {
+                if (this.polishAirlines != false) {
                     companiesArray.push('LOT Polish Airlines')
                 }
-                if (parameters.aeroflot != false) {
+                if (this.aeroflot != false) {
                     companiesArray.push('Аэрофлот - российские авиалинии')
                 }
                 return companiesArray
+            },
+            get requirements() {
+                let requirementsArray = [];
+                if (this.noMoreThanOneTransfer != false) {
+                    const jusOneTransferCheck = s => {
+                        if (s.hasOneTransfer == true) {
+                            return 1
+                        } else { return 0 }
+                    }
+                    requirementsArray.push(jusOneTransferCheck)
+                }
+                if (this.withoutTransfers != false) {
+                    const noTransfersCheck = s => {
+                        if (s.amountOfTransfers == 0) {
+                            return 1
+                        } else { return 0 }
+                    }
+                    requirementsArray.push(noTransfersCheck)
+                }
+                return requirementsArray
             }
         }
         console.log(parameters);
@@ -51,6 +71,13 @@ export default function SearchOptions() {
                             arrivalCity: leg.segments.at(-1).arrivalCity,
                             arrivalDate: new Date(leg.segments.at(-1).arrivalDate),
                             amountOfTransfers: leg.segments.length - 1,
+                            get hasOneTransfer() {
+                                let val = false;
+                                if (this.amountOfTransfers == 1) {
+                                    val = true
+                                }
+                                return val
+                            },
                             airlineCompany: leg.segments[0].airline.caption,
                         }
                     ))
@@ -62,11 +89,11 @@ export default function SearchOptions() {
         const sortedArray = [];
         flightsArray.forEach(flight => {
             flight.segments.forEach(segment => {
-                // if ((parameters.noMoreThanOneTransfer == true) && (segment.amountOfTransfers > 1)) {
+                // if ((parameters.noMoreThanOneTransfer != false) && (segment.amountOfTransfers > 1)) {
                 //     flight.appropriate = false
                 // }
-                // if (parameters.withoutTransfers == true) {
-                //     if (parameters.noMoreThanOneTransfer == true) {
+                // if (parameters.withoutTransfers != false) {
+                //     if (parameters.noMoreThanOneTransfer != false) {
                 //         if (segment.amountOfTransfers > 1) {
                 //             flight.appropriate = false
                 //         }
@@ -74,6 +101,14 @@ export default function SearchOptions() {
                 //         flight.appropriate = false
                 //     }
                 // }
+                let fits = 0;
+                parameters.requirements.forEach(req => {
+                    fits += req(segment)
+                })
+                
+                if (fits < 1) {
+                    flight.appropriate = false
+                }
             })
             if ((flight.cost < parameters.priceFrom) || (flight.cost > parameters.priceTo)) {
                 flight.appropriate = false
