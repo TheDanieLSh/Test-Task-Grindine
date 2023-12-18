@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { setValue } from '../redux/dataTransferReducer';
 import { useEffect, useState } from 'react';
+import { current } from '@reduxjs/toolkit';
 
 export default function SearchOptions() {
     const [state, setState] = useState(null);
@@ -8,6 +9,7 @@ export default function SearchOptions() {
         e.preventDefault();
         const response = await fetch('/flights.json');
         const flightsJSON = await response.json();
+        
         const parameters = {
             sorting: document.querySelector('input[name="sort"]:checked')?.value,
             noMoreThanOneTransfer: document.querySelector('input[name="filterOne"]:checked')?.value,
@@ -57,17 +59,26 @@ export default function SearchOptions() {
                 parameters[key] = false
             }
         }
-        // const reducedArray = [];
-        // flightsJSON.result.flights.reduce(
-        //     (previous, current) => (previous.push(current.flight)), reducedArray)
-        // console.log(reducedArray);
+
+        const reducedArray = flightsJSON.result.flights.reduce((acc, current) => {
+            if (current.flight) {
+                acc.push(current.flight)
+            }
+            return acc
+        }, [])
+        // const thirdOfArray = reducedArray.reduce((acc, current, i) => {
+        //     if (i <= (reducedArray.length / 3)) {
+        //         acc.push(current)
+        //     }
+        //     return acc
+        // }, [])
         const flightsArray = [];
-        flightsJSON.result.flights.forEach(f => {
+        reducedArray.forEach(flight => {
             flightsArray.push({
-                hostCompany: f.flight.carrier.caption,
-                cost: f.flight.price.total.amount,
+                hostCompany: flight.carrier.caption,
+                cost: flight.price.total.amount,
                 segments: [
-                    f.flight.legs.map(leg => (
+                    flight.legs.map(leg => (
                         {
                             departureUID: leg.segments[0].departureAirport.uid,
                             departureAirport: leg.segments[0].departureAirport.caption,
@@ -92,6 +103,7 @@ export default function SearchOptions() {
                 appropriate: true,
             })
         })
+
         const sortedArray = [];
         flightsArray.forEach(flight => {
             flight.segments.forEach(segment => {
@@ -130,7 +142,6 @@ export default function SearchOptions() {
                 }
             })
         })
-
         flightsArray.forEach(flight => {
             if (flight.appropriate == true) {
                 sortedArray.push(flight)

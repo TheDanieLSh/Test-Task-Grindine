@@ -18,11 +18,11 @@ export default function Flights() {
                             {flight.segments.map((segment, i) => (
                                 <div className="segment" key={i}>
                                     <div className="segment__departure-arrival">
-                                        <span className="airport-name">{segment.departureAirport}</span>
-                                        <span className="airport-uid">{segment.departureUID}</span>
-                                        →
-                                        <span className="airport-name">{segment.arrivalAirport}</span>
-                                        <span className="airport-uid">{segment.arrivalUID}</span>
+                                        <span className="airport-name">{/*segment.departureAirport*/}Couldn't Access</span>
+                                        <span className="airport-uid">{/*segment.departureUID*/}Couldn't Access</span>
+                                        <span className="blue-arrow">→</span>
+                                        <span className="airport-name">{/*segment.arrivalAirport*/}Couldn't Access</span>
+                                        <span className="airport-uid">{/*segment.arrivalUID*/}Couldn't Access</span>
                                     </div>
                                     <div className="segment__times">
                                         <span className="time-and-date">

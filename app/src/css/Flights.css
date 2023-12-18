@@ -35,6 +35,15 @@
   font-size: 25px;
 }
 
+.segment__departure-arrival {
+  display: flex;
+  justify-content: space-between;
+}
+
+.blue-arrow {
+  color: #0087c9;
+}
+
 .yellow-button {
   display: flex;
   align-items: center;
@@ -43,4 +52,5 @@
   color: white;
   font-size: 30px;
   height: 50px;
+  cursor: pointer;
 }/*# sourceMappingURL=Flights.css.map */
