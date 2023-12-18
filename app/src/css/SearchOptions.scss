@@ -1,0 +1,44 @@
+.search-options {
+    position: relative;
+    width: max-content;
+    height: max-content;
+}
+.search-options__decorative-grey-block_top {
+    width: 340px;
+    height: 30px;
+    background-color: #cfcccc;
+    margin-bottom: 40px;
+}
+.search-options__form {
+    margin-left: 30px;
+    & legend {
+        font-weight: bold;
+        font-size: 22px;
+        margin: 10px 0;
+    }
+    & fieldset {
+        margin: 10px 0;
+    }
+    & button {
+        font-size: 25px;
+        margin-top: 15px;
+        padding: 2px 5px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+}
+.priceField {
+    & input {
+        border: thin black solid;
+        padding: 2px;
+        font-size: 20px;
+        margin: 10px 5px;
+    }
+}
+
+.search-options__decorative-grey-block_bottom {
+    width: 340px;
+    height: 120px;
+    background-color: #d9d9d9;
+    margin-top: 35px;
+}

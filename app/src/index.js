@@ -15,7 +15,7 @@ root.render(
 
 function App() {
   return (
-    <div>
+    <div className='container'>
       <SearchOptions />
       <Flights />
     </div>

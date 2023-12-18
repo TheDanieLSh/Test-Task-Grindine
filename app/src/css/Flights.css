@@ -1,47 +1,32 @@
-.search-options {
-  position: relative;
-  width: -moz-max-content;
-  width: max-content;
-  height: -moz-max-content;
-  height: max-content;
+.flights {
+  margin-top: 50px;
+  width: 1000px;
 }
 
-.search-options__decorative-grey-block_top {
-  width: 340px;
-  height: 30px;
-  background-color: #cfcccc;
-  margin-bottom: 40px;
+.flight__header {
+  display: flex;
+  justify-content: space-between;
+  background-color: #0087c9;
+  color: white;
 }
 
-.search-options__form {
-  margin-left: 30px;
-}
-.search-options__form legend {
-  font-weight: bold;
-  font-size: 22px;
-  margin: 10px 0;
-}
-.search-options__form fieldset {
-  margin: 10px 0;
-}
-.search-options__form button {
-  font-size: 25px;
-  margin-top: 15px;
-  padding: 2px 5px;
-  border-radius: 5px;
-  cursor: pointer;
+.flight__company {
+  font-size: 35px;
 }
 
-.priceField input {
-  border: thin black solid;
-  padding: 2px;
-  font-size: 20px;
-  margin: 10px 5px;
+.flight__price {
+  text-align: right;
+  margin-right: 10px;
 }
 
-.search-options__decorative-grey-block_bottom {
-  width: 340px;
-  height: 120px;
-  background-color: #cfcccc;
-  margin-top: 35px;
+.price__number {
+  font-size: 30px;
+}
+
+.price__caption {
+  font-size: 15px;
+}
+
+.yellow-button {
+  background-color: #ffb168;
 }/*# sourceMappingURL=Flights.css.map */

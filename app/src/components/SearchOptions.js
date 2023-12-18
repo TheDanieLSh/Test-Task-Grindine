@@ -1,6 +1,9 @@
-import { current } from "@reduxjs/toolkit";
+import { useDispatch } from 'react-redux';
+import { setValue } from '../redux/dataTransferReducer';
+import { useEffect, useState } from 'react';
 
 export default function SearchOptions() {
+    const [state, setState] = useState(null);
     async function submitParameters(e) {
         e.preventDefault();
         const response = await fetch('/flights.json');
@@ -27,17 +30,21 @@ export default function SearchOptions() {
                 let requirementsArray = [];
                 if (this.noMoreThanOneTransfer != false) {
                     const jusOneTransferCheck = s => {
-                        if (s.hasOneTransfer == true) {
-                            return 1
-                        } else { return 0 }
+                        let result = 0;
+                        if (s.hasOnlyOneTransfer == true) {
+                            result = 1
+                        }
+                        return result
                     }
                     requirementsArray.push(jusOneTransferCheck)
                 }
                 if (this.withoutTransfers != false) {
                     const noTransfersCheck = s => {
+                        let result = 0;
                         if (s.amountOfTransfers == 0) {
-                            return 1
-                        } else { return 0 }
+                            result = 1
+                        }
+                        return result
                     }
                     requirementsArray.push(noTransfersCheck)
                 }
@@ -71,7 +78,7 @@ export default function SearchOptions() {
                             arrivalCity: leg.segments.at(-1).arrivalCity,
                             arrivalDate: new Date(leg.segments.at(-1).arrivalDate),
                             amountOfTransfers: leg.segments.length - 1,
-                            get hasOneTransfer() {
+                            get hasOnlyOneTransfer() {
                                 let val = false;
                                 if (this.amountOfTransfers == 1) {
                                     val = true
@@ -85,7 +92,6 @@ export default function SearchOptions() {
                 appropriate: true,
             })
         })
-        console.log(flightsArray);
         const sortedArray = [];
         flightsArray.forEach(flight => {
             flight.segments.forEach(segment => {
@@ -101,13 +107,14 @@ export default function SearchOptions() {
                 //         flight.appropriate = false
                 //     }
                 // }
-                let fits = 0;
-                parameters.requirements.forEach(req => {
-                    fits += req(segment)
-                })
-                
-                if (fits < 1) {
-                    flight.appropriate = false
+                if (parameters.requirements != 0) {
+                    let fits = 0;
+                    parameters.requirements.forEach(req => {
+                        fits += req(segment)
+                    })
+                    if (fits < 1) {
+                        flight.appropriate = false
+                    }
                 }
             })
             if ((flight.cost < parameters.priceFrom) || (flight.cost > parameters.priceTo)) {
@@ -142,7 +149,7 @@ export default function SearchOptions() {
                         return 0
                     }
                 })
-            break
+                break
             case 'decreasing':
                 sortedArray.sort((a, b) => {
                     if (a.cost < b.cost) {
@@ -155,7 +162,7 @@ export default function SearchOptions() {
                         return 0
                     }
                 })
-            break
+                break
             case 'timeCost':
                 sortedArray.sort((a, b) => {
                     if ((a.segments.at(-1).arrivalDate - a.segments[0].departureDate) > (b.segments.at(-1).arrivalDate - b.segments[0].departureDate)) {
@@ -171,63 +178,70 @@ export default function SearchOptions() {
                 break
         }
         console.log(sortedArray);
+        setState(sortedArray);
     }
 
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(setValue(state));
+    })
 
-return (
-    <div className="search-options">
-        <div className="search-options__decorative-grey-block_top"></div>
-        <form className="search-options__form">
-            <fieldset className="sortField">
-                <legend>Сортировать</legend>
-                <div>
-                    <input type="radio" name="sort" value="rise" />
-                    <label> - по возрастанию цены</label>
-                </div>
-                <div>
-                    <input type="radio" name="sort" value="decreasing" />
-                    <label> - по убыванию цены</label>
-                </div>
-                <div>
-                    <input type="radio" name="sort" value="timeCost" />
-                    <label> - по времени в пути</label>
-                </div>
-            </fieldset>
-            <fieldset className="filterField">
-                <legend>Фильтровать</legend>
-                <div>
-                    <input type="checkbox" name="filterOne" value={true} />
-                    <label> - 1 пересадка</label>
-                </div>
-                <div>
-                    <input type="checkbox" name="filterNo" value={true} />
-                    <label> - без пересадок</label>
-                </div>
-            </fieldset>
-            <fieldset className="priceField">
-                <legend>Цена</legend>
-                <div>
-                    <label>От</label>
-                    <input type="number" name="priceFrom" defaultValue="104598" />
-                </div>
-                <div>
-                    <label>До</label>
-                    <input type="number" name="priceTo" defaultValue="200000" />
-                </div>
-            </fieldset>
-            <fieldset className="companiesField">
-                <legend>Авиакомпании</legend>
-                <div>
-                    <input type="checkbox" name="PolishAirlines" value={true} />
-                    <label> - LOT Polish Airlines от 21049 р.</label>
-                </div>
-                <div>
-                    <input type="checkbox" name="Aeroflot" value={true} />
-                    <label> - Аэрофлот от 31733 р.</label>
-                </div>
-            </fieldset>
-            <button onClick={submitParameters}>Поиск</button>
-        </form>
-        <div className="search-options__decorative-grey-block_bottom"></div>
-    </div>
-)}
+
+    return (
+        <div className="search-options">
+            <div className="search-options__decorative-grey-block_top"></div>
+            <form className="search-options__form">
+                <fieldset className="sortField">
+                    <legend>Сортировать</legend>
+                    <div>
+                        <input type="radio" name="sort" value="rise" />
+                        <label> - по возрастанию цены</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="sort" value="decreasing" />
+                        <label> - по убыванию цены</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="sort" value="timeCost" />
+                        <label> - по времени в пути</label>
+                    </div>
+                </fieldset>
+                <fieldset className="filterField">
+                    <legend>Фильтровать</legend>
+                    <div>
+                        <input type="checkbox" name="filterOne" value={true} />
+                        <label> - 1 пересадка</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="filterNo" value={true} />
+                        <label> - без пересадок</label>
+                    </div>
+                </fieldset>
+                <fieldset className="priceField">
+                    <legend>Цена</legend>
+                    <div>
+                        <label>От</label>
+                        <input type="number" name="priceFrom" defaultValue="104598" />
+                    </div>
+                    <div>
+                        <label>До</label>
+                        <input type="number" name="priceTo" defaultValue="200000" />
+                    </div>
+                </fieldset>
+                <fieldset className="companiesField">
+                    <legend>Авиакомпании</legend>
+                    <div>
+                        <input type="checkbox" name="PolishAirlines" value={true} />
+                        <label> - LOT Polish Airlines от 21049 р.</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="Aeroflot" value={true} />
+                        <label> - Аэрофлот от 31733 р.</label>
+                    </div>
+                </fieldset>
+                <button onClick={submitParameters}>Поиск</button>
+            </form>
+            <div className="search-options__decorative-grey-block_bottom"></div>
+        </div>
+    )
+}

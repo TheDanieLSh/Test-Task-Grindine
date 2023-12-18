@@ -13,6 +13,14 @@ html {
 input {
     cursor: pointer;
 }
+span {
+    display: inline-block;
+}
+
+.container {
+    display: flex;
+    column-gap: 80px
+}
 
 @import url(./css/SearchOptions.css);
 @import url(./css/Flights.css);

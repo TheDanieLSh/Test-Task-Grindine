@@ -16,4 +16,14 @@ html {
 
 input {
   cursor: pointer;
+}
+
+span {
+  display: inline-block;
+}
+
+.container {
+  display: flex;
+  -moz-column-gap: 80px;
+       column-gap: 80px;
 }/*# sourceMappingURL=index.css.map */
