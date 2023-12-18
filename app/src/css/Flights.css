@@ -11,12 +11,16 @@
 }
 
 .flight__company {
+  display: flex;
+  align-self: center;
   font-size: 35px;
+  margin-left: 10px;
 }
 
 .flight__price {
   text-align: right;
   margin-right: 10px;
+  margin-bottom: 5px;
 }
 
 .price__number {
@@ -27,6 +31,16 @@
   font-size: 15px;
 }
 
+.segment {
+  font-size: 25px;
+}
+
 .yellow-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: #ffb168;
+  color: white;
+  font-size: 30px;
+  height: 50px;
 }/*# sourceMappingURL=Flights.css.map */
