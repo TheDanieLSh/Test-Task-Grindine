@@ -81,4 +81,11 @@
   font-size: 30px;
   height: 50px;
   cursor: pointer;
+}
+
+.blue-line {
+  background-color: #0087c9;
+  width: 100%;
+  height: 2px;
+  margin: 10px 0;
 }/*# sourceMappingURL=Flights.css.map */

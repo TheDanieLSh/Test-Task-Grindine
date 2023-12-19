@@ -48,7 +48,6 @@ export default function SearchOptions() {
                 return requirementsArray
             }
         }
-        console.log(parameters);
         for (let key in parameters) {
             if (parameters[key] == undefined) {
                 parameters[key] = false
@@ -61,12 +60,6 @@ export default function SearchOptions() {
             }
             return acc
         }, [])
-        // const thirdOfArray = reducedArray.reduce((acc, current, i) => {
-        //     if (i <= (reducedArray.length / 3)) {
-        //         acc.push(current)
-        //     }
-        //     return acc
-        // }, [])
         const flightsArray = [];
         reducedArray.forEach(flight => {
             flightsArray.push({
@@ -102,18 +95,6 @@ export default function SearchOptions() {
         const sortedArray = [];
         flightsArray.forEach(flight => {
             flight.segments[0].forEach(segment => {
-                // if ((parameters.noMoreThanOneTransfer != false) && (segment.amountOfTransfers > 1)) {
-                //     flight.appropriate = false
-                // }
-                // if (parameters.withoutTransfers != false) {
-                //     if (parameters.noMoreThanOneTransfer != false) {
-                //         if (segment.amountOfTransfers > 1) {
-                //             flight.appropriate = false
-                //         }
-                //     } else if (segment.amountOfTransfers > 0) {
-                //         flight.appropriate = false
-                //     }
-                // }
                 if (parameters.requirements != 0) {
                     let fits = 0;
                     parameters.requirements.forEach(req => {

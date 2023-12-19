@@ -2,12 +2,6 @@ import { useSelector } from "react-redux"
 
 export default function Flights() {
     const resultArray = useSelector(state => state.dataTransferReducer.suitableFlights);
-    // resultArray.forEach(flight => {
-    //     flight.segments[0].forEach(segment => {
-    //         segment.departureDate = new Date(segment.departureDate);
-    //         segment.arrivalDate = new Date(segment.arrivalDate);
-    //     })
-    // })
     if (resultArray) {
         return (
             <div className="flights">
@@ -46,6 +40,9 @@ export default function Flights() {
                                         <span className="amount-of-transfers">{segment.amountOfTransfers + ' пересадка'}</span>
                                         <span className="grey-line"></span>
                                     </div>
+                                    {i == 0 && 
+                                        <div className="blue-line"></div>
+                                    }
                                 </div>
                             ))}
                         </div>
