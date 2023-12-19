@@ -1,7 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { setValue } from '../redux/dataTransferReducer';
 import { useEffect, useState } from 'react';
-import { current } from '@reduxjs/toolkit';
 
 export default function SearchOptions() {
     const [state, setState] = useState(null);
@@ -9,7 +8,7 @@ export default function SearchOptions() {
         e.preventDefault();
         const response = await fetch('/flights.json');
         const flightsJSON = await response.json();
-        
+
         const parameters = {
             sorting: document.querySelector('input[name="sort"]:checked')?.value,
             noMoreThanOneTransfer: document.querySelector('input[name="filterOne"]:checked')?.value,
@@ -31,22 +30,18 @@ export default function SearchOptions() {
             get requirements() {
                 let requirementsArray = [];
                 if (this.noMoreThanOneTransfer != false) {
-                    const jusOneTransferCheck = s => {
-                        let result = 0;
+                    const jusOneTransferCheck = (s) => {
                         if (s.hasOnlyOneTransfer == true) {
-                            result = 1
-                        }
-                        return result
+                            return 1
+                        } else { return 0 }
                     }
                     requirementsArray.push(jusOneTransferCheck)
                 }
                 if (this.withoutTransfers != false) {
-                    const noTransfersCheck = s => {
-                        let result = 0;
+                    const noTransfersCheck = (s) => {
                         if (s.amountOfTransfers == 0) {
-                            result = 1
-                        }
-                        return result
+                            return 1
+                        } else { return 0 }
                     }
                     requirementsArray.push(noTransfersCheck)
                 }
@@ -106,7 +101,7 @@ export default function SearchOptions() {
 
         const sortedArray = [];
         flightsArray.forEach(flight => {
-            flight.segments.forEach(segment => {
+            flight.segments[0].forEach(segment => {
                 // if ((parameters.noMoreThanOneTransfer != false) && (segment.amountOfTransfers > 1)) {
                 //     flight.appropriate = false
                 // }
@@ -188,7 +183,12 @@ export default function SearchOptions() {
                 })
                 break
         }
-        console.log(sortedArray);
+        sortedArray.forEach(fl => {
+            fl.segments[0].forEach(seg => {
+                seg.departureDate = seg.departureDate.toString();
+                seg.arrivalDate = seg.arrivalDate.toString();
+            })
+        })
         setState(sortedArray);
     }
 

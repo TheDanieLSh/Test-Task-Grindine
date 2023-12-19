@@ -40,8 +40,36 @@
   justify-content: space-between;
 }
 
+.airport-uid {
+  color: #0087c9;
+}
+
 .blue-arrow {
   color: #0087c9;
+}
+
+.date {
+  color: #0087c9;
+}
+
+.segment_amount-of-transfers {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.grey-line {
+  background-color: gray;
+  height: 1px;
+  width: 300px;
+}
+
+.amount-of-transfers {
+  color: #ffb168;
+}
+
+.flight__host {
+  font-size: 25px;
 }
 
 .yellow-button {
